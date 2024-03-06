@@ -1,0 +1,5 @@
+require("config.options")
+require("config.keymaps")
+require("config.run")
+require("config.autocmd")
+require("lazy-setup")
