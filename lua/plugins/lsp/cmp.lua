@@ -96,5 +96,8 @@ return {
 				sorting = defaults.sorting,
 			})
 		end,
-	}
+	},
+	opts = function(_, opts)
+		table.insert(opts.sorting.comparators, 1, require("clangd_extensions.cmp_scores"))
+	end,
 }

@@ -43,6 +43,11 @@ local M = {
 		BinaryFormat = nil
 	end,
 
+	is_win = function ()
+		local BinaryFormat = package.cpath:match("%p[\\|/]?%p(%a+)")
+		return BinaryFormat == "dll"
+	end,
+
 	TermMode = TermMode,
 
 

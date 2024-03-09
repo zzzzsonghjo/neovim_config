@@ -49,4 +49,6 @@ require("lazy").setup({
 	require("plugins.lsp.cmp"),
 	require("plugins.lsp.treesitter"),
 	require("plugins.lsp.symbols-outline"),
+
+	require("plugins.lsp.lang.clangd"),
 })
