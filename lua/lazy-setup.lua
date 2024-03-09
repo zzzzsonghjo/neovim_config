@@ -24,6 +24,7 @@ require("lazy").setup({
 	require("plugins.UI.dressing"),
 	require("plugins.UI.noice"),
 	require("plugins.UI.notify"),
+	require("plugins.UI.incline"),
 
 	require("plugins.edit.autopairs"),
 	require("plugins.edit.comment"),

@@ -43,10 +43,6 @@ return {
 	},
 	{
 		"norcalli/nvim-colorizer.lua",
-		event = "VeryLazy"
+		event = "VeryLazy",
 	},
-	{
-		"shaunsingh/solarized.nvim",
-		event = "VeryLazy"
-	}
 }

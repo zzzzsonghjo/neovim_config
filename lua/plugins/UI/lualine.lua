@@ -14,6 +14,8 @@ return {
 		"nvim-tree/nvim-web-devicons"
 	},
 	opts = function()
+		local icons = require("util.symbols").icons
+
 		local lualine_require = require("lualine_require")
 		lualine_require.require = require
 
@@ -26,16 +28,44 @@ return {
 				disabled_filetypes = { statusline = { "dashboard", "alpha", "starter" } },
 			},
 			sections = {
-				lualine_c = {
-					{ "filename" },
+				lualine_a = { "mode" },
+				lualine_b = {
+					"branch",
 					{
-						function()
-							return require("nvim-navic").get_location()
+						"diff",
+						symbols = {
+							added = icons.git.added,
+							modified = icons.git.modified,
+							removed = icons.git.removed,
+						},
+						source = function()
+							local gitsigns = vim.b.gitsigns_status_dict
+							if gitsigns then
+								return {
+									added = gitsigns.added,
+									modified = gitsigns.changed,
+									removed = gitsigns.removed,
+								}
+							end
 						end,
-						cond = function()
-							return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-						end,
-					}
+					},
+				},
+
+				lualine_c = {
+					{
+						"diagnostics",
+						symbols = {
+							error = icons.diagnostics.Error,
+							warn = icons.diagnostics.Warn,
+							info = icons.diagnostics.Info,
+							hint = icons.diagnostics.Hint,
+						},
+					},
+				},
+				lualine_x = {
+					{ "encoding" },
+					{ "fileformat" },
+					{ "filetype" },
 				},
 				lualine_y = {
 					{ "progress" },
