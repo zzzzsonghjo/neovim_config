@@ -16,10 +16,10 @@ return {
 				callback = function(ev)
 					vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-					vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = ev.buf, desc = "definition" })
+					-- vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = ev.buf, desc = "definition" })
 					vim.keymap.set('n', 'K', vim.lsp.buf.signature_help, { buffer = ev.buf, desc = "signature help" })
 					vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename, { buffer = ev.buf, desc = "rename" })
-					vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = ev.buf, desc = "references" })
+					-- vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = ev.buf, desc = "references" })
 					vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { buffer = ev.buf, desc = "code action" })
 					vim.keymap.set('n', '<leader>cf', function()
 						vim.lsp.buf.format { async = true }

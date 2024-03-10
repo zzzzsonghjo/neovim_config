@@ -61,7 +61,7 @@ return {
 			width = 32,
 
 			mappings = {
-				["<space>"] = "none",
+				["<Space>"] = "open",
 				["Y"] = {
 					function(state)
 						local node = state.tree:get_node()
