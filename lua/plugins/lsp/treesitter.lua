@@ -53,7 +53,7 @@ return {
 				"lua",
 				"json",
 				"markdown",
-				"python",
+				"ninja", "python", "rst", "toml",
 				"vim",
 			},
 			incremental_selection = {

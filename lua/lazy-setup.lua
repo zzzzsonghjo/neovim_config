@@ -51,4 +51,5 @@ require("lazy").setup({
 	require("plugins.lsp.symbols-outline"),
 
 	require("plugins.lsp.lang.clangd"),
+	require("plugins.lsp.lang.python"),
 })
