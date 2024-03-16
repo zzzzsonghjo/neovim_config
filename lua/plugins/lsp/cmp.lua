@@ -16,14 +16,6 @@ return {
 				dependencies = {
 					"saadparwaiz1/cmp_luasnip",
 				},
-				opts = function(_, opts)
-					opts.snippet = {
-						expand = function(args)
-							require("luasnip").lsp_expand(args.body)
-						end,
-					}
-					-- table.insert(opts.sources, { name = "luasnip" })
-				end,
 			},
 		},
 		opts = {
@@ -53,6 +45,7 @@ return {
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
 			"saadparwaiz1/cmp_luasnip",
+			"onsails/lspkind.nvim",
 		},
 
 		config = function()
@@ -61,6 +54,16 @@ return {
 			local defaults = require("cmp.config.default")()
 
 			cmp.setup({
+				---@diagnostic disable-next-line: missing-fields
+				formatting = {
+					format = function(_, item)
+						local icons = require("util.symbols").icons.kinds
+						if icons[item.kind] then
+							item.kind = icons[item.kind] .. item.kind
+						end
+						return item
+					end,
+				},
 				completion = {
 					completeopt = "menu,menuone,noinsert",
 				},
@@ -97,7 +100,4 @@ return {
 			})
 		end,
 	},
-	opts = function(_, opts)
-		table.insert(opts.sorting.comparators, 1, require("clangd_extensions.cmp_scores"))
-	end,
 }
