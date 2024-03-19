@@ -41,6 +41,11 @@ return {
 			},
 		},
 	},
+	{ "ellisonleao/gruvbox.nvim" },
+	{
+		"folke/tokyonight.nvim",
+		opts = { style = "moon" },
+	},
 	{
 		"norcalli/nvim-colorizer.lua",
 		event = "VeryLazy",

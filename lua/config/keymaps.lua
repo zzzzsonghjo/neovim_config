@@ -1,9 +1,9 @@
 vim.g.mapleader = ","
 
-local map = require("util.keymaps").map
-local toggle = require("util.configs").toggle_opt
-
-map({ "n" }, "J", "", { expr = true, silent = true })
+local toggle = require("util.toggle")
+local terminal = require("util.terminal")
+--local root = require("util.root")
+local map = vim.keymap.set
 
 -- better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -61,16 +61,16 @@ map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result
 
 -- search
 map('n', '<leader>S', '<cmd>lua require("spectre").toggle()<CR>', {
-    desc = "Toggle Spectre"
+	desc = "Toggle Spectre"
 })
 map('n', '<leader>sw', '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {
-    desc = "Search current word"
+	desc = "Search current word"
 })
 map('v', '<leader>sw', '<esc><cmd>lua require("spectre").open_visual()<CR>', {
-    desc = "Search current word"
+	desc = "Search current word"
 })
 map('n', '<leader>sp', '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {
-    desc = "Search on current file"
+	desc = "Search on current file"
 })
 
 -- Add undo break-points
@@ -78,8 +78,8 @@ map("i", ",", ",<c-g>u")
 map("i", ".", ".<c-g>u")
 map("i", ";", ";<c-g>u")
 
--- save file
-map("n", "<leader>fw", "<cmd>w<cr><esc>", { desc = "Save file" })
+--keywordprg
+map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
 
 -- better indenting
 map("v", "<", "<gv")
@@ -117,13 +117,40 @@ map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 -- quit
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
 map("n", "<leader>qw", "<cmd>wqa<cr>", { desc = "Quit all && save" })
-map("n", "<leader>qf", "<cmd>qa!<cr>", { desc = "Quit all(force)" })
+map("n", "<leader>q!", "<cmd>qa!<cr>", { desc = "Quit all(force)" })
+
+-- toggle options
+map("n", "<leader>us", function() toggle("spell") end, { desc = "Toggle Spelling" })
+map("n", "<leader>uw", function() toggle("wrap") end, { desc = "Toggle Word Wrap" })
+map("n", "<leader>uL", function() toggle("relativenumber") end, { desc = "Toggle Relative Line Numbers" })
+map("n", "<leader>ul", function() toggle.number() end, { desc = "Toggle Line Numbers" })
+map("n", "<leader>ud", function() toggle.diagnostics() end, { desc = "Toggle Diagnostics" })
+local conceallevel = vim.o.conceallevel > 0 and vim.o.conceallevel or 3
+map("n", "<leader>uc", function() toggle("conceallevel", false, { 0, conceallevel }) end, { desc = "Toggle Conceal" })
+if vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint then
+	map("n", "<leader>uh", function() toggle.inlay_hints() end, { desc = "Toggle Inlay Hints" })
+end
+map("n", "<leader>ub",
+	function() toggle("background", false, { "light", "dark" }) end,
+	{ desc = "Toggle Background" })
 
 -- lazygit
-map("n", "<leader>gg", "<cmd>LazyGit<Cr>", { desc = "Lazygit" })
+map("n", "<leader>gg", function() terminal({ "lazygit" }, { esc_esc = false, ctrl_hjkl = false }) end,
+	{ desc = "Lazygit (cwd)" })
+
+map("n", "<leader>gf", function()
+	local git_path = vim.api.nvim_buf_get_name(0)
+	terminal({ "lazygit", "-f", vim.trim(git_path) }, { esc_esc = false, ctrl_hjkl = false })
+end, { desc = "Lazygit current file history" })
+
 
 -- highlights under cursor
 map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
+
+-- floating terminal
+local lazyterm = function() terminal() end
+map("n", "<c-/>", lazyterm, { desc = "Terminal" })
+map("n", "<c-_>", lazyterm, { desc = "which_key_ignore" })
 
 -- Terminal Mappings
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
@@ -150,8 +177,10 @@ map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
--- toggle options
-map("n", "<leader>uw", function()
-	vim.o.wrap = toggle(vim.o.wrap, true, false)
-	print("wrap state : " .. tostring(vim.o.wrap))
-end, { desc = "Toggle wrap" })
+-- all
+map("n", "<leader>a=", "gg=G", { desc = "Indent All" })
+map("n", "<leader>ay", "ggyG", { desc = "Yank All" })
+map("n", "<leader>av", "ggVG", { desc = "Choose All" })
+map("n", "<leader>ad", "ggdG", { desc = "Delete All" })
+map("n", "<leader>ac", "ggcG", { desc = "Replace All" })
+

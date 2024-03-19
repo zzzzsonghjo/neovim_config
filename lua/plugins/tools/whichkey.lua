@@ -10,6 +10,7 @@ return {
 			["]"] = { name = "+next" },
 			["["] = { name = "+prev" },
 			["<leader><tab>"] = { name = "+tabs" },
+			["<leader>a"] = { name = "+all" },
 			["<leader>b"] = { name = "+buffer" },
 			["<leader>c"] = { name = "+code", },
 			["<leader>cm"] = { name = "+make", },
